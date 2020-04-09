@@ -124,6 +124,18 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
+		try {
+			shortList.add(null);
+			fail("Check Null Pointer");
+		}
+		catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+		
+		shortList.add("C");
+		assertEquals("Check last", "C", shortList.get(2));
+		assertEquals("Check second to last","B", shortList.get(1));
+		assertEquals(3, shortList.size());
 		
 	}
 
@@ -133,6 +145,10 @@ public class MyLinkedListTester {
 	public void testSize()
 	{
 		// TODO: implement this test
+		assertEquals("Empty List", 0, emptyList.size());
+		assertEquals("Short List", 2, shortList.size());
+		assertEquals(10, longerList.size());
+		
 	}
 
 	
@@ -145,7 +161,36 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
+		try {
+			shortList.add(-1, "Z");
+			fail("Check Out of Bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
 		
+		try {
+			shortList.add(5, "Z");
+			fail("Check out of bounds");
+		}catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+		
+		try {
+			shortList.add(2, null);
+			fail("Check Null Pointer");
+		}catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+		
+		shortList.add(2, "C");
+		assertEquals("C", shortList.get(2));
+		
+		shortList.add(0, "Z");
+		assertEquals("Z", shortList.get(0));
+		assertEquals("A", shortList.get(1));
+		assertEquals("B", shortList.get(2));
+		assertEquals(4, shortList.size);
 	}
 	
 	/** Test setting an element in the list */
@@ -153,6 +198,29 @@ public class MyLinkedListTester {
 	public void testSet()
 	{
 	    // TODO: implement this test
+	    try {
+	    	shortList.set(-1, "Z");
+	    	fail("Check out of bounds");
+	    }catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+	    
+	    try {
+	    	shortList.set(5, "Z");
+	    	fail("Check out of bounds");
+	    }catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+	    
+	    try {
+	    	shortList.set(0, null);
+	    	fail("Check null pointer");
+	    }catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+	    
+	    assertEquals("A", shortList.set(0, "Z"));
+	    assertEquals("Z", shortList.get(0));
 	    
 	}
 	
