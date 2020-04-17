@@ -20,6 +20,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     public AutoCompleteDictionaryTrie()
 	{
 		root = new TrieNode();
+		size = 0;
 	}
 	
 	
@@ -40,7 +41,26 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean addWord(String word)
 	{
 	    //TODO: Implement this method.
-	    return false;
+		TrieNode currNode = root;
+		boolean success = false;
+		
+		for(Character c : word.toCharArray()) {
+			
+			if(!currNode.getValidNextCharacters().contains(c)) {
+				currNode.insert(c);
+				success = true;
+			}
+				
+			currNode = currNode.getChild(c);
+		}
+		
+		currNode.setEndsWord(true);
+		
+		if(success) {
+			size++;
+		}
+		
+		return success;
 	}
 	
 	/** 
@@ -50,7 +70,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public int size()
 	{
 	    //TODO: Implement this method
-	    return 0;
+	    return size;
 	}
 	
 	

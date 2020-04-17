@@ -114,6 +114,20 @@ public class MyLinkedListTester {
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
 		
+		try{
+			shortList.remove(-1);
+			fail("Check out of bounds");
+		}catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+		
+		try {
+			shortList.remove(5);
+			fail("Check out of bounds");
+		}catch (IndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+		
 		// TODO: Add more tests here
 	}
 	
