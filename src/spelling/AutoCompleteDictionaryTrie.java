@@ -44,7 +44,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 		TrieNode currNode = root;
 		boolean success = false;
 		
-		for(Character c : word.toCharArray()) {
+		for(Character c : word.toLowerCase().toCharArray()) {
 			
 			if(!currNode.getValidNextCharacters().contains(c)) {
 				currNode.insert(c);
@@ -54,11 +54,11 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 			currNode = currNode.getChild(c);
 		}
 		
-		currNode.setEndsWord(true);
-		
-		if(success) {
+		if(success || (!success && !currNode.endsWord())) {
 			size++;
 		}
+		
+		currNode.setEndsWord(true);
 		
 		return success;
 	}
@@ -80,6 +80,23 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean isWord(String s) 
 	{
 	    // TODO: Implement this method
+		TrieNode currNode = root;
+		
+		if(s.isEmpty() || this.size == 0) {
+			return false;
+		}
+		
+		for(Character c : s.toLowerCase().toCharArray()) {
+			if(currNode.getValidNextCharacters().contains(c)) {
+				currNode = currNode.getChild(c);
+			}else {
+				return false;
+			}
+		}
+		
+		if(currNode.endsWord())
+		return true;
+		
 		return false;
 	}
 
@@ -121,10 +138,45 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     	 //       Add all of its child nodes to the back of the queue
     	 // Return the list of completions
     	 
-         return null;
+    	 TrieNode currNode = root;
+    	 
+    	 for(Character c : prefix.toLowerCase().toCharArray()) {
+    		 if(!currNode.getValidNextCharacters().contains(c)) {
+    			 return new LinkedList<String>();
+    		 }
+    		 currNode = currNode.getChild(c);
+    	 }
+    	 
+         return generateCompletions(currNode, numCompletions);
      }
 
- 	// For debugging
+ 	private LinkedList<String> generateCompletions(TrieNode currNode, int numCompletions) {
+		// TODO Auto-generated method stub
+ 		LinkedList<TrieNode> nodeList = new LinkedList<TrieNode>();
+ 		LinkedList<String> wordList = new LinkedList<String>();
+ 		
+ 		nodeList.add(currNode);
+ 		
+ 		while(!nodeList.isEmpty() && numCompletions > 0) {
+ 			if(nodeList.getFirst().endsWord()) {
+ 				wordList.add(nodeList.getFirst().getText());
+ 				numCompletions--;
+ 			}
+ 			
+ 			for(Character c : nodeList.getFirst().getValidNextCharacters()) {
+ 				nodeList.add(nodeList.getFirst().getChild(c));
+ 			}
+ 			
+ 			nodeList.removeFirst();
+ 		}
+ 		
+ 		nodeList.clear();
+ 		
+		return wordList;
+	}
+
+
+	// For debugging
  	public void printTree()
  	{
  		printNode(root);

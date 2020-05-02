@@ -22,28 +22,61 @@ public class WPTree implements WordPath {
 	// used to search for nearby Words
 	private NearbyWords nw; 
 	
+	private Dictionary d;
+	
 	// This constructor is used by the Text Editor Application
 	// You'll need to create your own NearbyWords object here.
 	public WPTree () {
 		this.root = null;
 		// TODO initialize a NearbyWords object
-		// Dictionary d = new DictionaryHashSet();
-		// DictionaryLoader.loadDictionary(d, "data/dict.txt");
-		// this.nw = new NearbyWords(d);
+		 d = new DictionaryHashSet();
+		 DictionaryLoader.loadDictionary(d, "data/dict.txt");
+		 this.nw = new NearbyWords(d); 
 	}
 	
 	//This constructor will be used by the grader code
 	public WPTree (NearbyWords nw) {
 		this.root = null;
 		this.nw = nw;
+		this.d = nw.dict;
 	}
 	
 	// see method description in WordPath interface
 	public List<String> findPath(String word1, String word2) 
 	{
 	    // TODO: Implement this method.
-	    return new LinkedList<String>();
+		if(!d.isWord(word2)) {
+			return null;
+		}
+		
+		List<WPTreeNode> queue = new LinkedList<>();
+		HashSet<String> visited = new HashSet<String>();
+		WPTreeNode curr;
+		
+		root = new WPTreeNode(word1, null);
+		visited.add(word1);
+		queue.add(root);
+//		curr = root;
+		
+		while(!queue.isEmpty() && !visited.contains(word2)) {
+			curr = queue.remove(0);
+			List<String> neighbors = nw.distanceOne(curr.getWord(), true);
+			
+			for(String n : neighbors) {
+				if(!visited.contains(n)) {
+					printQueue(queue);
+					WPTreeNode child =	curr.addChild(n);
+					visited.add(n);
+					queue.add(child);
+					if(n.equals(word2)) {
+						return child.buildPathToRoot();
+					}
+				}
+			}
+		}
+	    return null;
 	}
+	
 	
 	// Method to print a list of WPTreeNodes (useful for debugging)
 	private String printQueue(List<WPTreeNode> list) {
@@ -56,6 +89,10 @@ public class WPTree implements WordPath {
 		return ret;
 	}
 	
+	public static void main(String[] args) {
+		WPTree tree = new WPTree();
+		System.out.println(tree.findPath("the", "thx"));
+	}
 }
 
 /* Tree Node in a WordPath Tree. This is a standard tree with each
