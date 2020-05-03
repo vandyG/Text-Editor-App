@@ -1,8 +1,7 @@
 SMART TEXT EDITOR
 =================
 
-This project is a smart text editor/processor that incorporates “intelligent” behaviors of modern-day text interfaces including autocomplete, flagging misspelled words and spelling auto-correct. It also displays a readability score of the text (Flesch Index) using the formula:
-![flesch index](http://www.sciweavers.org/tex2img.php?eq=206.835%20-%201.015%20%5Ctimes%20%28%20%5Cfrac%7Bwords%7D%7Bsentences%7D%20%29%20-%2084.6%20%5Ctimes%20%28%20%5Cfrac%7Bsyllables%7D%7Bwords%7D%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+This project is a smart text editor/processor that incorporates “intelligent” behaviors of modern-day text interfaces including autocomplete, flagging misspelled words and spelling auto-correct. It also displays a readability score of the text using Flesch-Kincaid readability. The text editor also has other features including **Edit Distance** and **Markov Text Generator**.
 
 ## SETUP 
 
